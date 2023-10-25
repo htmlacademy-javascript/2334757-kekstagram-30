@@ -17,5 +17,6 @@ const createIdGenerator = () => {
   };
 };
 
+export {getRandomInteger};
 export {getRandomArrayElement};
 export {createIdGenerator};

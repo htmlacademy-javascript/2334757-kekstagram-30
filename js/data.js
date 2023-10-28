@@ -62,9 +62,9 @@ const createPicture = (index) => ({
   )
 });
 
-const getPictures = () => Array.from (
+const createPictures = () => Array.from (
   { length: PICTURE_COUNT },
   (_, pictureIndex) => createPicture(pictureIndex + 1),
 );
 
-export {getPictures};
+export {createPictures};

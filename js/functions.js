@@ -45,3 +45,28 @@ extractNumber('а я томат');
 extractNumber(2023);
 extractNumber(-1);
 extractNumber(1.5);
+
+
+// Функция проверки времени.
+const getTime = (time) => {
+  if(String(time).includes(':', 0)) {
+    const timeArr = time.split(':');
+    return new Date().setHours(+timeArr[0], +timeArr[1], 0, 0);
+  } else {
+    return new Date().setHours(0, +time, 0, 0) - new Date().setHours(0, 0, 0, 0);
+  }
+};
+
+const checkWorkingTimeLimits = (startWorkTime, endWorkTime, startMeetingTime, meetingDuration) => {
+  const startWorkTimeDate = getTime(startWorkTime);
+  const endWorkTimeDate = getTime(endWorkTime);
+  const startMeetingTimeDate = getTime(startMeetingTime);
+  const meetingDurationTime = getTime(meetingDuration);
+  return (startWorkTimeDate <= startMeetingTimeDate && (startMeetingTimeDate + meetingDurationTime) <= endWorkTimeDate);
+};
+
+checkWorkingTimeLimits('08:00', '17:30', '14:00', 90); // true
+checkWorkingTimeLimits('8:0', '10:0', '8:0', 120); // true
+checkWorkingTimeLimits('08:00', '14:30', '14:00', 90); // false
+checkWorkingTimeLimits('14:00', '17:30', '08:0', 90); // false
+checkWorkingTimeLimits('8:00', '17:30', '08:00', 900); // false

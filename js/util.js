@@ -1,3 +1,4 @@
+// Генератор чисел.
 const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
@@ -17,6 +18,10 @@ const createIdGenerator = () => {
   };
 };
 
+// Кнопка ESC
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
 export {getRandomInteger};
 export {getRandomArrayElement};
 export {createIdGenerator};
+export {isEscapeKey};

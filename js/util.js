@@ -18,10 +18,7 @@ const createIdGenerator = () => {
   };
 };
 
-// Кнопка ESC
-const isEscapeKey = (evt) => evt.key === 'Escape';
-
 export {getRandomInteger};
 export {getRandomArrayElement};
 export {createIdGenerator};
-export {isEscapeKey};
+

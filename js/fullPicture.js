@@ -1,8 +1,6 @@
-import { isEscapeKey } from './util.js';
-
-const fullPictureElement = document.querySelector('.big-picture');
-const bodyElement = document.querySelector('body');
-const closeButtonFullPictureElement = fullPictureElement.querySelector('.big-picture__cancel');
+const fullPicture = document.querySelector('.big-picture');
+const body = document.querySelector('body');
+const closeButtonFullPicture = fullPicture.querySelector('.big-picture__cancel');
 
 const COMMENTS_COUNT_SHOW = 5;
 const commentTemplate = document.querySelector('#comment')
@@ -55,15 +53,15 @@ const onCommentsLoaderClick = () => renderComments();
 
 // Создание полноэкранного изображения
 const renderPicture = ({ url, description, likes }) => {
-  fullPictureElement.querySelector('.big-picture__img img').src = url;
-  fullPictureElement.querySelector('.big-picture__img img').alt = description;
-  fullPictureElement.querySelector('.likes-count').textContent = likes;
-  fullPictureElement.querySelector('.social__caption').textContent = description;
+  fullPicture.querySelector('.big-picture__img img').src = url;
+  fullPicture.querySelector('.big-picture__img img').alt = description;
+  fullPicture.querySelector('.likes-count').textContent = likes;
+  fullPicture.querySelector('.social__caption').textContent = description;
 };
 
 const showFullPicture = (pictureData) => {
-  fullPictureElement.classList.remove('hidden');
-  bodyElement.classList.add('modal-open');
+  fullPicture.classList.remove('hidden');
+  body.classList.add('modal-open');
 
   document.addEventListener('keydown', onDocumentKeydown);
 
@@ -78,23 +76,23 @@ const showFullPicture = (pictureData) => {
 // Закрытие полноэкранного изображения
 const hideFullPicture = () => {
   commentsCountShow = 0;
-  fullPictureElement.classList.add('hidden');
-  bodyElement.classList.remove('modal-open');
+  fullPicture.classList.add('hidden');
+  body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
-const oncloseButtonFullPictureElementClick = () => {
+const oncloseButtonFullPictureClick = () => {
   hideFullPicture();
 };
 
 function onDocumentKeydown (evt) {
-  if (isEscapeKey) {
+  if (evt.key === 'Escape') {
     evt.preventDefault();
     hideFullPicture();
   }
 }
 
-closeButtonFullPictureElement.addEventListener('click', (oncloseButtonFullPictureElementClick));
+closeButtonFullPicture.addEventListener('click', (oncloseButtonFullPictureClick));
 commentsLoader.addEventListener('click', (onCommentsLoaderClick));
 
 export { showFullPicture };

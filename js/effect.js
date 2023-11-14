@@ -149,4 +149,4 @@ const init = () => {
   imageEffects.addEventListener('change', onEffectChange);
 };
 
-export { init, reset};
+export { init, reset };

@@ -1,5 +1,7 @@
 import { init as initEffect, reset as resetEffect } from './effect.js';
 import { resetScale } from './scale.js';
+import { sendPicture } from './api.js';
+import { showSuccessMessage, showErrorMessage } from './message.js';
 
 const MAX_HASHTAG_COUNT = 5;
 const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
@@ -9,25 +11,26 @@ const ErrorText = {
   INVALID_HASHTAG: 'Неправильный хэштег',
 };
 
-const inputUpload = document.querySelector('.img-upload__input');
-const modalUpload = document.querySelector('.img-upload__overlay');
-const body = document.querySelector('body');
-const closeButtonModalUpload = document.querySelector('.img-upload__cancel');
+const SUBMIT_BUTTON_CAPTION = {
+  SUBMITTING: 'Отправляю...',
+  IDLE: 'Опубликовать...',
+};
 
+const body = document.querySelector('body');
 const uploadForm = document.querySelector('.img-upload__form');
-const inputHashtag = document.querySelector('.text__hashtags');
-const inputComment = document.querySelector('.text__description');
+const inputHashtag = uploadForm.querySelector('.text__hashtags');
+const inputComment = uploadForm.querySelector('.text__description');
+const inputUpload = uploadForm.querySelector('.img-upload__input');
+const modalUpload = uploadForm.querySelector('.img-upload__overlay');
+const closeButtonModalUpload = uploadForm.querySelector('.img-upload__cancel');
+const submitButton = uploadForm.querySelector('.img-upload__submit');
+
 
 // Валидация
 const pristine = new Pristine(uploadForm, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
   errorTextClass: 'img-upload__field-wrapper--error',
-});
-
-uploadForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  pristine.validate();
 });
 
 const normilizeHashtag = (string) => string
@@ -91,9 +94,12 @@ const isInputFocused = () =>
   document.activeElement === inputUpload ||
   document.activeElement === inputComment;
 
+const isRrrorMessageExist = () => (
+  Boolean(document.querySelector('.error'))
+);
 
 function onDocumentKeydown (evt) {
-  if (evt.key === 'Escape' && !isInputFocused()) {
+  if (evt.key === 'Escape' && !isInputFocused() && !isRrrorMessageExist()) {
     evt.preventDefault();
     hideModalUpload();
   }
@@ -107,16 +113,44 @@ const inputUploadChange = () => {
   openModalUpload();
 };
 
-const onuploadFormSubmit = (evt) => {
+// Отправка данных на сервер
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = SUBMIT_BUTTON_CAPTION.SUBMITTING;
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = SUBMIT_BUTTON_CAPTION.IDLE;
+};
+
+const sendForm = async (formElement) => {
+  if (!pristine.validate()) {
+    return;
+  }
+
+  try {
+    blockSubmitButton();
+    await sendPicture(new FormData(formElement));
+    unblockSubmitButton();
+    hideModalUpload();
+    showSuccessMessage();
+  } catch {
+    unblockSubmitButton();
+    showErrorMessage();
+  }
+};
+
+const onUploadFormSubmit = async (evt) => {
   evt.preventDefault();
-  pristine.validate();
+  sendForm(evt.target);
 };
 
 const startForm = () => {
   inputUpload.addEventListener('change', (inputUploadChange));
   closeButtonModalUpload.addEventListener('click', (closeButtonModalUploadClick));
-  uploadForm.addEventListener('submit', (onuploadFormSubmit));
+  uploadForm.addEventListener('submit', (onUploadFormSubmit));
   initEffect();
 };
 
-export { startForm };
+startForm();

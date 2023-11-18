@@ -16,6 +16,8 @@ const SUBMIT_BUTTON_CAPTION = {
   IDLE: 'Опубликовать...',
 };
 
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
+
 const body = document.querySelector('body');
 const uploadForm = document.querySelector('.img-upload__form');
 const inputHashtag = uploadForm.querySelector('.text__hashtags');
@@ -24,7 +26,8 @@ const inputUpload = uploadForm.querySelector('.img-upload__input');
 const modalUpload = uploadForm.querySelector('.img-upload__overlay');
 const closeButtonModalUpload = uploadForm.querySelector('.img-upload__cancel');
 const submitButton = uploadForm.querySelector('.img-upload__submit');
-
+const photoPreview = uploadForm.querySelector('.img-upload__default');
+const effectsPreview = uploadForm.querySelectorAll('.effects__preview ');
 
 // Валидация
 const pristine = new Pristine(uploadForm, {
@@ -109,7 +112,20 @@ const closeButtonModalUploadClick = () => {
   hideModalUpload();
 };
 
-const inputUploadChange = () => {
+const isValidType = (file) => {
+  const fileName = file.name.toLowerCase();
+  return FILE_TYPES.some((it) => fileName.endsWith(it));
+};
+
+const onInputUploadChange = () => {
+  const file = inputUpload.files[0];
+
+  if (file && isValidType(file)) {
+    photoPreview.src = URL.createObjectURL(file);
+    effectsPreview.forEach((preview) => {
+      preview.style.backgroundImage = `url('${photoPreview.src}')`;
+    });
+  }
   openModalUpload();
 };
 
@@ -147,7 +163,7 @@ const onUploadFormSubmit = async (evt) => {
 };
 
 const startForm = () => {
-  inputUpload.addEventListener('change', (inputUploadChange));
+  inputUpload.addEventListener('change', (onInputUploadChange));
   closeButtonModalUpload.addEventListener('click', (closeButtonModalUploadClick));
   uploadForm.addEventListener('submit', (onUploadFormSubmit));
   initEffect();

@@ -4,19 +4,19 @@ const successMessageTemplate = document.querySelector('#success')
 const errorMessageTemplate = document.querySelector('#error')
   .content.querySelector('.error');
 
-function onBodyClick (evt) {
-  if (evt.target.closest('.success__inner') || evt.target.closest('.error__inner')) {
-    return;
-  }
-  hideMessage();
-};
-
 const hideMessage = () => {
   const existElement = document.querySelector('.success') || document.querySelector('.error');
   existElement.remove();
   document.removeEventListener('keydown', onDocumentKeydown);
   document.body.removeEventListener('click', onBodyClick);
 };
+
+function onBodyClick (evt) {
+  if (evt.target.closest('.success__inner') || evt.target.closest('.error__inner')) {
+    return;
+  }
+  hideMessage();
+}
 
 const onCloseButtonClick = () => {
   hideMessage();

@@ -55,10 +55,22 @@ const repaint = (evt, filter, pictures) => {
 
 const debouncedRepaint = debounce(repaint);
 
+const onFilterButtonClick = (evt) => {
+  const filtersButton = filterForm.querySelectorAll('.img-filters__button');
+  filtersButton.forEach((item) => {
+    item.classList.remove('img-filters__button--active');
+  });
+  if (evt.target.matches('.img-filters__button')) {
+    evt.target.classList.add('img-filters__button--active');
+  }
+};
+
 
 // Показ фильтра при загрузке данных с сервера.
 const initFilter = (pictures) => {
   filterEl.classList.remove('img-filters--inactive');
+  filterForm.addEventListener('click', onFilterButtonClick);
+
   defaultButton.addEventListener('click', (evt) => {
     debouncedRepaint(evt, FILTERS.DEFAULT, pictures);
   });

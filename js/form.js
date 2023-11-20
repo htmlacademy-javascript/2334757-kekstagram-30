@@ -13,7 +13,7 @@ const ErrorText = {
 
 const SUBMIT_BUTTON_CAPTION = {
   SUBMITTING: 'Отправляю...',
-  IDLE: 'Опубликовать...',
+  IDLE: 'Опубликовать',
 };
 
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
@@ -94,7 +94,7 @@ const hideModalUpload = () => {
 };
 
 const isInputFocused = () =>
-  document.activeElement === inputUpload ||
+  document.activeElement === inputHashtag ||
   document.activeElement === inputComment;
 
 const isRrrorMessageExist = () => (

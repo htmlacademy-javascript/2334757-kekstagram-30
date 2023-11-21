@@ -1,14 +1,14 @@
 import { renderGallery } from './gallery';
 import { debounce } from './util';
 
-const filterEl = document.querySelector('.img-filters');
+const imageFilters = document.querySelector('.img-filters');
 
 const filterForm = document.querySelector('.img-filters__form');
 const defaultButton = filterForm.querySelector('#filter-default');
 const randomButton = filterForm.querySelector('#filter-random');
 const discussedButton = filterForm.querySelector('#filter-discussed');
 
-const FILTERS = {
+const Filters = {
   DEFAULT: 'default',
   RANDOM: 'random',
   DISCUSSED: 'discussed',
@@ -22,10 +22,10 @@ const getRandomIndex = (min, max) => (
 
 // Изменение фильтров.
 const filterHandlers = {
-  [FILTERS.DEFAULT]: (pictures) => (
+  [Filters.DEFAULT]: (pictures) => (
     pictures
   ),
-  [FILTERS.RANDOM]: (pictures) => {
+  [Filters.RANDOM]: (pictures) => {
     const randomIndexList = [];
     const max = Math.min(MAX_RANDOM_FILTER, pictures.length);
     while(randomIndexList.length < max) {
@@ -36,7 +36,7 @@ const filterHandlers = {
     }
     return randomIndexList.map((index) => pictures[index]);
   },
-  [FILTERS.DISCUSSED]: (pictures) => (
+  [Filters.DISCUSSED]: (pictures) => (
     [...pictures].sort((item1, item2) => (
       item2.comments.length - item1.comments.length
     ))
@@ -68,17 +68,17 @@ const onFilterButtonClick = (evt) => {
 
 // Показ фильтра при загрузке данных с сервера.
 const initFilter = (pictures) => {
-  filterEl.classList.remove('img-filters--inactive');
+  imageFilters.classList.remove('img-filters--inactive');
   filterForm.addEventListener('click', onFilterButtonClick);
 
   defaultButton.addEventListener('click', (evt) => {
-    debouncedRepaint(evt, FILTERS.DEFAULT, pictures);
+    debouncedRepaint(evt, Filters.DEFAULT, pictures);
   });
   randomButton.addEventListener('click', (evt) => {
-    debouncedRepaint(evt, FILTERS.RANDOM, pictures);
+    debouncedRepaint(evt, Filters.RANDOM, pictures);
   });
   discussedButton.addEventListener('click', (evt) => {
-    debouncedRepaint(evt, FILTERS.DISCUSSED, pictures);
+    debouncedRepaint(evt, Filters.DISCUSSED, pictures);
   });
 };
 

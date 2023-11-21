@@ -21,5 +21,4 @@ function debounce (callback, timeoutDelay = 500) {
   };
 }
 
-
 export { ShowErrorMessage, debounce };

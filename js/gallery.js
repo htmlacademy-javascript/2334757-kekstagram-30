@@ -1,5 +1,5 @@
 import { renderThumbnails } from './thumbnails';
-import { showFullPicture } from './fullPicture';
+import { showFullPicture } from './full-picture';
 
 const container = document.querySelector('.pictures');
 
@@ -22,4 +22,4 @@ const renderGallery = (pictures) => {
   renderThumbnails(pictures, container);
 };
 
-export {renderGallery};
+export { renderGallery };

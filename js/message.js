@@ -11,9 +11,23 @@ const hideMessage = () => {
   document.body.removeEventListener('click', onBodyClick);
 };
 
+function onBodyClick (evt) {
+  if (evt.target.closest('.success__inner') || evt.target.closest('.error__inner')) {
+    return;
+  }
+  hideMessage();
+}
+
 const onCloseButtonClick = () => {
   hideMessage();
 };
+
+function onDocumentKeydown (evt) {
+  if (evt.key === 'Escape') {
+    evt.preventDefault();
+    hideMessage();
+  }
+}
 
 const showMessage = (element, classButton) => {
   document.body.append(element);
@@ -22,20 +36,6 @@ const showMessage = (element, classButton) => {
   document.addEventListener('keydown', onDocumentKeydown);
   document.body.addEventListener('click', onBodyClick);
 };
-
-function onBodyClick (evt) {
-  if (evt.target.closest('.sucess__inner') || (evt.target.closest('.error__inner'))) {
-    return;
-  }
-  hideMessage();
-}
-
-function onDocumentKeydown (evt) {
-  if (evt.key === 'Escape') {
-    evt.preventDefault();
-    hideMessage();
-  }
-}
 
 const showSuccessMessage = () => {
   showMessage(successMessageTemplate, '.success__button');

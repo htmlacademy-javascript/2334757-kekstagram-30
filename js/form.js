@@ -11,12 +11,12 @@ const ErrorText = {
   INVALID_HASHTAG: 'Неправильный хэштег',
 };
 
-const SUBMIT_BUTTON_CAPTION = {
+const SubmitButtonCaptions = {
   SUBMITTING: 'Отправляю...',
-  IDLE: 'Опубликовать...',
+  IDLE: 'Опубликовать',
 };
 
-const FILE_TYPES = ['jpg', 'jpeg', 'png'];
+const FileTypes = ['jpg', 'jpeg', 'png'];
 
 const body = document.querySelector('body');
 const uploadForm = document.querySelector('.img-upload__form');
@@ -94,7 +94,7 @@ const hideModalUpload = () => {
 };
 
 const isInputFocused = () =>
-  document.activeElement === inputUpload ||
+  document.activeElement === inputHashtag ||
   document.activeElement === inputComment;
 
 const isRrrorMessageExist = () => (
@@ -114,7 +114,7 @@ const closeButtonModalUploadClick = () => {
 
 const isValidType = (file) => {
   const fileName = file.name.toLowerCase();
-  return FILE_TYPES.some((it) => fileName.endsWith(it));
+  return FileTypes.some((it) => fileName.endsWith(it));
 };
 
 const onInputUploadChange = () => {
@@ -132,12 +132,12 @@ const onInputUploadChange = () => {
 // Отправка данных на сервер
 const blockSubmitButton = () => {
   submitButton.disabled = true;
-  submitButton.textContent = SUBMIT_BUTTON_CAPTION.SUBMITTING;
+  submitButton.textContent = SubmitButtonCaptions.SUBMITTING;
 };
 
 const unblockSubmitButton = () => {
   submitButton.disabled = false;
-  submitButton.textContent = SUBMIT_BUTTON_CAPTION.IDLE;
+  submitButton.textContent = SubmitButtonCaptions.IDLE;
 };
 
 const sendForm = async (formElement) => {

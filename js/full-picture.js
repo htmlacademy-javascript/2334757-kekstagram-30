@@ -1,8 +1,11 @@
+import { isEscapeKey } from './util.js';
+
+const COMMENTS_COUNT_SHOW = 5;
+
 const fullPicture = document.querySelector('.big-picture');
 const body = document.querySelector('body');
 const closeButtonFullPicture = fullPicture.querySelector('.big-picture__cancel');
 
-const COMMENTS_COUNT_SHOW = 5;
 const commentTemplate = document.querySelector('#comment')
   .content.querySelector('.social__comment');
 const commentList = document.querySelector('.social__comments');
@@ -86,7 +89,7 @@ const oncloseButtonFullPictureClick = () => {
 };
 
 function onDocumentKeydown (evt) {
-  if (evt.key === 'Escape') {
+  if (isEscapeKey(evt)) {
     evt.preventDefault();
     hideFullPicture();
   }

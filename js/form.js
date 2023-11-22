@@ -2,6 +2,7 @@ import { init as initEffect, reset as resetEffect } from './effect.js';
 import { resetScale } from './scale.js';
 import { sendPicture } from './api.js';
 import { showSuccessMessage, showErrorMessage } from './message.js';
+import { isEscapeKey } from './util.js';
 
 const MAX_HASHTAG_COUNT = 5;
 const VALID_SYMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;
@@ -97,12 +98,12 @@ const isInputFocused = () =>
   document.activeElement === inputHashtag ||
   document.activeElement === inputComment;
 
-const isRrrorMessageExist = () => (
+const isErrorMessageExist = () => (
   Boolean(document.querySelector('.error'))
 );
 
 function onDocumentKeydown (evt) {
-  if (evt.key === 'Escape' && !isInputFocused() && !isRrrorMessageExist()) {
+  if (isEscapeKey(evt) && !isInputFocused() && !isErrorMessageExist()) {
     evt.preventDefault();
     hideModalUpload();
   }

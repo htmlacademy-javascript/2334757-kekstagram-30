@@ -1,5 +1,7 @@
-import { renderGallery } from './gallery';
-import { debounce } from './util';
+import { renderGallery } from './gallery.js';
+import { debounce } from './util.js';
+
+const MAX_RANDOM_FILTER = 10;
 
 const imageFilters = document.querySelector('.img-filters');
 
@@ -13,8 +15,6 @@ const Filters = {
   RANDOM: 'random',
   DISCUSSED: 'discussed',
 };
-
-const MAX_RANDOM_FILTER = 10;
 
 const getRandomIndex = (min, max) => (
   Math.floor(Math.random() * (max - min))

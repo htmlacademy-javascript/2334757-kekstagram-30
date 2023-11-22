@@ -1,5 +1,5 @@
-import { renderThumbnails } from './thumbnails';
-import { showFullPicture } from './full-picture';
+import { renderThumbnails } from './thumbnails.js';
+import { showFullPicture } from './full-picture.js';
 
 const container = document.querySelector('.pictures');
 
